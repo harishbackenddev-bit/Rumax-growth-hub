@@ -8,6 +8,7 @@ import FormSection from "@/components/website/home/FormSection";
 import TrustSection from "@/components/website/home/TrustSection";
 import RichTextSection from "@/components/website/home/RichTextSection";
 import { ServiceSwitchModal } from "@/components/ServiceSwitchModal";
+import CookieConsent from "@/components/CookieConsent"; // path apne hisaab se adjust karein
 function Home() {
   // Data for sections
   const section1Items = [
@@ -37,6 +38,9 @@ function Home() {
             to switch to Care Support Services, please
             switch here." switchHref="https://rumax-second-frontend.vercel.app/?switched=true" />
       )}
+
+        {/* ✅ Cookie Consent yahan add karo */}
+      <CookieConsent />
       <Hero />
       <LogoSection />
       
