@@ -220,10 +220,6 @@ export const recruitmentSteps: InfoItem[] = [
   {
     title: "Offer",
     description: "Job offer and pre-employment checks"
-  },
-  {
-    title: "Offer",
-    description: "Job offer and pre-employment checks"
   }
 ];
 
