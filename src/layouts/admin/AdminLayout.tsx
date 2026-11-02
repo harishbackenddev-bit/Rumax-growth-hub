@@ -7,57 +7,62 @@ import { useAuth } from "@/context/AuthContext";
 
 const AdminLayout = () => {
   const { user } = useAuth();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
   const closeSidebar = () => setIsSidebarOpen(false);
 
   // Get user initials
   const getInitials = (name: string) => {
     if (!name) return "A";
-    const parts = name.split(" ");
+    const parts = name.trim().split(" ");
     if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
-    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+    return (
+      parts[0].charAt(0) + parts[parts.length - 1].charAt(0)
+    ).toUpperCase();
   };
 
-  // Apply admin theme if needed
   useEffect(() => {
-    // Any admin-specific initialization
+    // Close mobile sidebar when route changes / viewport resizes to desktop
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) setIsSidebarOpen(false);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Lock body scroll when mobile drawer is open
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isSidebarOpen]);
+
+  const adminName = user?.name || "Admin Tino";
+
   return (
-    <div className="flex h-screen overflow-hidden" style={{
-      background: 'rgb(240, 242, 249)'
-    }}>
-      <AdminSidebar
-        isOpen={isSidebarOpen}
-        onToggle={toggleSidebar}
-        onClose={closeSidebar}
-        adminName={user?.name || "Admin Tino"}
+    <div className="flex min-h-screen flex-col bg-slate-950 text-white">
+      <AdminHeader
+        onMenuClick={toggleSidebar}
+        adminName={adminName}
         adminEmail={user?.email || "admin@email.com"}
-        adminInitials={getInitials(user?.name || "Admin Tino")}
+        adminInitials={getInitials(adminName)}
+        adminRole={user?.role || "Administrator"}
       />
-      
-      <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-        <AdminHeader
-          onMenuClick={toggleSidebar}
-          isSidebarOpen={isSidebarOpen}
-          adminName={user?.name || "Admin Tino"}
-          adminEmail={user?.email || "admin@email.com"}
-          adminInitials={getInitials(user?.name || "Admin Tino")}
-          adminRole={user?.role || "Administrator"}
+
+      <div className="flex min-h-0 flex-1">
+        <AdminSidebar
+          isOpen={isSidebarOpen}
+          onClose={closeSidebar}
         />
 
-        <main 
-          className={`flex-1 overflow-y-auto transition-all duration-300 pt-16`}
-          style={{
-            marginLeft: isSidebarOpen ? '232px' : '0px',
-            background: 'rgb(240, 242, 249)'
-          }}
-        >
-          <div className="p-6">
-            <Outlet />
-          </div>
+        <main className="flex min-w-0 flex-1 flex-col overflow-x-hidden">
+          <Outlet />
         </main>
       </div>
     </div>

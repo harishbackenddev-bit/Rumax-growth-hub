@@ -1,20 +1,5 @@
 // pages/admin/AdminDashboard.tsx
-import React, { useState, useEffect } from 'react';
-import {
-  Users,
-  Star,
-  ClipboardList,
-  Briefcase,
-  TrendingUp,
-  TrendingDown,
-  Funnel,
-  Download,
-  RefreshCw,
-  ArrowUpRight,
-  Eye,
-  Pen,
-  Trash2
-} from 'lucide-react';
+import React from "react";
 import {
   AreaChart,
   Area,
@@ -25,763 +10,464 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
-  Cell
-} from 'recharts';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import ProfileSidebar from '@/components/admin/candidate/ProfileSidebar';
+  Cell,
+} from "recharts";
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+import { Calendericon, Downloadicon, FilterIcon, Highsignicon } from "@/utils/svgicons";
 
-interface DashboardStats {
-  totalApplicants: number;
-  activeApplicants: number;
-  pendingReviews: number;
-  activeVacancies: number;
-  applicantsGrowth: number;
-  activeGrowth: number;
-  pendingGrowth: number;
-  vacanciesGrowth: number;
-}
+const trafficData = [
+  { month: "Jan", users: 40000, sessions: 28000, pageViews: 18000 },
+  { month: "Feb", users: 48000, sessions: 34000, pageViews: 22000 },
+  { month: "Mar", users: 44000, sessions: 31000, pageViews: 20000 },
+  { month: "Apr", users: 62000, sessions: 44000, pageViews: 28000 },
+  { month: "May", users: 56000, sessions: 40000, pageViews: 25000 },
+  { month: "Jun", users: 74000, sessions: 52000, pageViews: 33000 },
+  { month: "Jul", users: 82000, sessions: 58000, pageViews: 37000 },
+  { month: "Aug", users: 78000, sessions: 55000, pageViews: 35000 },
+  { month: "Sep", users: 92000, sessions: 65000, pageViews: 41000 },
+  { month: "Oct", users: 98000, sessions: 69000, pageViews: 44000 },
+  { month: "Nov", users: 95000, sessions: 67000, pageViews: 42000 },
+  { month: "Dec", users: 105000, sessions: 74000, pageViews: 47000 },
+];
 
-interface ChartData {
-  month: string;
-  activeLeads: number;
-  converted: number;
-}
+const sourceData = [
+  { name: "Referral", value: 8, color: "#9b94f5" },
+  { name: "Direct", value: 10, color: "#5fadff" },
+  { name: "Social", value: 32, color: "#f9d5dc" },
+  { name: "Organic", value: 33, color: "#9fe0c5" },
+];
 
-interface User {
-  id: string;
-  name: string;
-  username: string;
-  email: string;
-  role: string;
-  department: string;
-  status: 'Active' | 'Inactive';
-  initials: string;
-  color: string;
-}
+const statCards = [
+  {
+    title: "Total Leads",
+    value: "1,284",
+    change: "+12.5%",
+    isPositive: true,
+    iconBg: "bg-blue-500",
+    icon: (
+      <svg
+        className="h-5 w-5 sm:h-6 sm:w-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="9" cy="8" r="3.5"></circle>
+        <path d="M2.5 20c.5-3.5 3.2-5.5 6.5-5.5s6 2 6.5 5.5"></path>
+        <path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c2 .7 3.2 2.4 3.5 5.2"></path>
+      </svg>
+    ),
+  },
+  {
+    title: "Sessions",
+    value: "328",
+    change: "+12.5%",
+    isPositive: true,
+    iconBg: "bg-gradient-to-br from-fuchsia-500 to-purple-600",
+    icon: (
+      <svg
+        className="h-5 w-5 sm:h-6 sm:w-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+      </svg>
+    ),
+  },
+  {
+    title: "Bounce Rate",
+    value: "47",
+    change: "+12.5%",
+    isPositive: false,
+    iconBg: "bg-gradient-to-br from-pink-500 to-rose-600",
+    icon: (
+      <svg
+        className="h-5 w-5 sm:h-6 sm:w-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="9"></circle>
+        <circle cx="12" cy="12" r="5"></circle>
+        <circle cx="12" cy="12" r="1.2"></circle>
+      </svg>
+    ),
+  },
+  {
+    title: "Avg Session Duration",
+    value: "89",
+    change: "+12.5%",
+    isPositive: true,
+    iconBg: "bg-green-500",
+    icon: (
+      <svg
+        className="h-5 w-5 sm:h-6 sm:w-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="13.5" r="7.5"></circle>
+        <path d="M12 9.5v4l2 1.5M9.5 2.5h5M12 2.5v3.5"></path>
+      </svg>
+    ),
+  },
+];
 
-interface Candidate {
-  id: string;
-  name: string;
-  role: string;
-  source: string;
-  time: string;
-  status: 'New' | 'Contacted' | 'Qualified';
-  initials: string;
-  color: string;
-  _id?: string;
-  email?: string;
-  phone?: string;
-  location?: string;
-  availability?: string;
-  score?: number;
-  createdAt?: string;
-  updatedAt?: string;
-}
+const topPages = [
+  {
+    url: "/products/premium-plan",
+    views: "12,540",
+    visitors: "6,110 Visitors",
+    avgTime: "2m 45s",
+    bounce: "38%",
+    conversion: "4.2%",
+  },
+];
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-  
-  const [stats, setStats] = useState<DashboardStats>({
-    totalApplicants: 0,
-    activeApplicants: 0,
-    pendingReviews: 0,
-    activeVacancies: 0,
-    applicantsGrowth: 0,
-    activeGrowth: 0,
-    pendingGrowth: 0,
-    vacanciesGrowth: 0
-  });
-  const [chartData, setChartData] = useState<ChartData[]>([]);
-  const [pieData, setPieData] = useState<any[]>([]);
-  const [totalCandidates, setTotalCandidates] = useState(0);
-  const [users, setUsers] = useState<User[]>([]);
-  const [candidates, setCandidates] = useState<Candidate[]>([]);
-
-  useEffect(() => {
-    fetchDashboardStats();
-  }, []);
-
-  const fetchDashboardStats = async () => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('No token found');
-        setLoading(false);
-        return;
-      }
-
-      const response = await axios.get(`${API_URL}/api/admin/dashboard`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      if (response.data.success) {
-        const data = response.data.data;
-        
-        setStats({
-          totalApplicants: data.totalApplicants || 0,
-          activeApplicants: data.activeApplicants || 0,
-          pendingReviews: data.pendingReviews || 0,
-          activeVacancies: data.activeVacancies || 0,
-          applicantsGrowth: data.applicantsGrowth || 0,
-          activeGrowth: data.activeGrowth || 0,
-          pendingGrowth: data.pendingGrowth || 0,
-          vacanciesGrowth: data.vacanciesGrowth || 0
-        });
-
-        setChartData(data.chartData || []);
-        setPieData(data.pieData || []);
-        setTotalCandidates(data.totalCandidates || 0);
-        setUsers(data.users || []);
-        setCandidates(data.candidates || []);
-      }
-    } catch (err) {
-      console.error('Error fetching dashboard stats:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleRefresh = () => {
-    fetchDashboardStats();
-  };
-
-  // Handle view profile
-  const handleViewProfile = (candidate: Candidate) => {
-    // Convert dashboard candidate to full candidate object
-    const fullCandidate = {
-      _id: candidate.id || candidate._id,
-      id: candidate.id || candidate._id,
-      firstName: candidate.name?.split(' ')[0] || '',
-      lastName: candidate.name?.split(' ').slice(1).join(' ') || '',
-      name: candidate.name || '',
-      email: candidate.email || '',
-      phone: candidate.phone || '',
-      role: candidate.role || '',
-      positionAppliedFor: candidate.role || '',
-      location: candidate.location || '',
-      preferredLocations: candidate.location ? [candidate.location] : [],
-      availability: candidate.availability || 'N/A',
-      workPreference: candidate.availability || 'N/A',
-      appliedDate: candidate.createdAt || new Date().toISOString(),
-      score: candidate.score || 0,
-      status: candidate.status as any || 'Pending',
-      initials: candidate.initials || '',
-      color: candidate.color || '#0F4C81',
-      createdAt: candidate.createdAt || '',
-      updatedAt: candidate.updatedAt || ''
-    };
-    
-    setSelectedCandidate(fullCandidate as any);
-    setIsProfileOpen(true);
-  };
-
-  const handleCloseProfile = () => {
-    setIsProfileOpen(false);
-    setSelectedCandidate(null);
-  };
-
-  const statCards = [
-    {
-      title: "Total Applicants",
-      value: stats.totalApplicants.toLocaleString(),
-      change: `${stats.applicantsGrowth > 0 ? '+' : ''}${stats.applicantsGrowth}%`,
-      isPositive: stats.applicantsGrowth >= 0,
-      icon: Users,
-      bgColor: "rgb(96, 27, 128)",
-      valueColor: "rgb(96, 27, 128)"
-    },
-    {
-      title: "Active Applicants",
-      value: stats.activeApplicants.toLocaleString(),
-      change: `${stats.activeGrowth > 0 ? '+' : ''}${stats.activeGrowth}%`,
-      isPositive: stats.activeGrowth >= 0,
-      icon: Star,
-      bgColor: "rgb(27, 34, 128)",
-      valueColor: "rgb(27, 34, 128)"
-    },
-    {
-      title: "Pending Reviews",
-      value: stats.pendingReviews.toLocaleString(),
-      change: `${stats.pendingGrowth > 0 ? '+' : ''}${stats.pendingGrowth}%`,
-      isPositive: stats.pendingGrowth >= 0,
-      icon: ClipboardList,
-      bgColor: "rgb(217, 119, 6)",
-      valueColor: "rgb(217, 119, 6)"
-    },
-    {
-      title: "Active Vacancies",
-      value: stats.activeVacancies.toLocaleString(),
-      change: `${stats.vacanciesGrowth > 0 ? '+' : ''}${stats.vacanciesGrowth}%`,
-      isPositive: stats.vacanciesGrowth >= 0,
-      icon: Briefcase,
-      bgColor: "rgb(5, 150, 105)",
-      valueColor: "rgb(5, 150, 105)"
-    }
-  ];
-
-  const getStatusStyle = (status: string) => {
-    switch (status) {
-      case 'Active':
-        return { bg: 'rgb(236, 253, 245)', color: 'rgb(5, 150, 105)' };
-      case 'Inactive':
-        return { bg: 'rgb(243, 244, 246)', color: 'rgb(156, 163, 175)' };
-      case 'New':
-        return { bg: 'rgb(238, 244, 255)', color: 'rgb(59, 130, 246)' };
-      case 'Contacted':
-        return { bg: 'rgb(255, 251, 235)', color: 'rgb(217, 119, 6)' };
-      case 'Qualified':
-        return { bg: 'rgb(236, 253, 245)', color: 'rgb(5, 150, 105)' };
-      default:
-        return { bg: 'rgb(243, 244, 246)', color: 'rgb(156, 163, 175)' };
-    }
-  };
-
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-white p-3 rounded-xl shadow-lg border border-gray-200">
-          <p className="text-xs font-semibold text-gray-800">{label}</p>
-          {payload.map((entry: any, index: number) => (
-            <p key={index} className="text-xs text-gray-600">
-              {entry.name}: {entry.value}
-            </p>
-          ))}
-        </div>
-      );
-    }
-    return null;
-  };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-700 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading dashboard...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-6 px-4 sm:px-0">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-            Dashboard
-          </h1>
-          <p className="text-sm text-gray-400 font-medium mt-1">
-            Welcome back 👋 Here's what's happening today.
-          </p>
-        </div>
-        <div className="flex items-center gap-2.5 flex-wrap">
-          <button
-            onClick={handleRefresh}
-            className="flex items-center gap-2 rounded-xl px-3 sm:px-4 py-2.5 bg-purple-700 text-white text-sm font-bold hover:bg-purple-800 transition-colors"
-          >
-            <RefreshCw size={15} stroke="currentColor" strokeWidth={2} />
-            Refresh
-          </button>
-          <button
-            className="flex items-center gap-2 rounded-xl px-3 sm:px-4 py-2.5 border border-gray-200 bg-white text-sm text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
-          >
-            <Download size={15} stroke="currentColor" strokeWidth={2} />
-            Export
-          </button>
+    <main
+      id="page"
+      className="min-w-0 flex-1 px-4 pb-12 pt-6 sm:px-6 sm:pb-16 sm:pt-8 lg:px-[28px] lg:pt-[36px]"
+    >
+      {/* Page Head */}
+      <div id="page-head">
+        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+          <div className="min-w-0">
+            <h1 className="text-2xl font-medium leading-tight sm:text-[28px] lg:text-[32px]">
+              Dashboard
+            </h1>
+            <p className="mt-1 text-sm text-slate-500 sm:text-[16px]">
+              Welcome back! Here's what's happening today.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <button className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-line bg-panel px-3 text-sm text-white transition hover:bg-panelhead sm:h-[44px] sm:px-4 sm:text-[15px]">
+             <Calendericon/>
+              Last 30 days
+            </button>
+            <button className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-brand px-3 text-sm font-medium text-white transition hover:bg-indigo-700 sm:h-[44px] sm:px-4 sm:text-[15px]">
+           <Downloadicon/>
+              Export
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {statCards.map((stat, index) => (
-          <div
-            key={index}
-            className="rounded-2xl p-5 bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all cursor-pointer"
-          >
-            <div className="flex items-start justify-between mb-4">
+      {/* Stats */}
+      <section
+        id="stats"
+        className="mt-5 grid grid-cols-1 gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4"
+      >
+        {statCards.map((stat, i) => (
+          <div key={i} className="rounded-xl bg-panel p-3 sm:p-4">
+            <div className="flex items-start gap-2.5 sm:gap-3">
               <div
-                className="flex items-center justify-center rounded-xl w-11 h-11"
-                style={{ background: stat.bgColor }}
+                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg sm:h-12 sm:w-12 ${stat.iconBg}`}
               >
-                <stat.icon size={18} stroke="#fff" strokeWidth={2} />
+                {stat.icon}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[13px] leading-snug text-slate-400 sm:text-[14px]">
+                  {stat.title}
+                </p>
+                <p className="mt-0.5 text-2xl font-semibold leading-tight sm:mt-1 sm:text-[30px]">
+                  {stat.value}
+                </p>
               </div>
               <span
-                className="flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold"
-                style={{
-                  background: stat.isPositive ? 'rgb(236, 253, 245)' : 'rgb(254, 242, 242)',
-                  color: stat.isPositive ? 'rgb(5, 150, 105)' : 'rgb(220, 38, 38)'
-                }}
+                className={`inline-flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 text-[10px] sm:px-2 sm:text-[11px] ${
+                  stat.isPositive
+                    ? "bg-green-900/40 text-green-400"
+                    : "bg-red-900/40 text-red-400"
+                }`}
               >
-                {stat.isPositive ? (
-                  <TrendingUp size={10} stroke="currentColor" strokeWidth={2} />
-                ) : (
-                  <TrendingDown size={10} stroke="currentColor" strokeWidth={2} />
-                )}
+               < Highsignicon/>
                 {stat.change}
               </span>
             </div>
-            <p className="text-2xl sm:text-3xl font-extrabold leading-none tracking-tight" style={{ color: stat.valueColor }}>
-              {stat.value}
-            </p>
-            <p className="text-sm font-bold text-gray-900 mt-1.5">
-              {stat.title}
-            </p>
-            <p className="text-xs text-gray-400 font-medium mt-0.5">
+            <p className="mt-2 text-[12px] text-slate-500 sm:mt-3 sm:text-[13px]">
               vs last month
             </p>
           </div>
         ))}
-      </div>
+      </section>
 
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1.65fr_1fr] gap-5">
-        {/* Lead Conversion Chart */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-5 gap-3">
-            <div>
-              <h3 className="text-base font-bold text-gray-900">
-                Lead Conversion Overview
-              </h3>
-              <p className="text-xs text-gray-400 font-medium mt-1">
-                Showing data for last 12 months
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="flex flex-wrap items-center gap-3">
-                <button className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 bg-none border-none cursor-pointer">
-                  <span className="w-2 h-2 rounded-full bg-blue-500 inline-block"></span>
-                  Active Leads
-                </button>
-                <button className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 bg-none border-none cursor-pointer">
-                  <span className="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
-                  Converted
+      {/* Charts */}
+      <section className="mt-6 grid grid-cols-1 gap-4 sm:mt-9 sm:gap-6 xl:grid-cols-[1.78fr_1fr]">
+        {/* Traffic Overview */}
+        <div id="traffic-card" className="min-w-0">
+          <div className="overflow-hidden rounded-xl bg-panel">
+            <div className="flex flex-col gap-3 bg-panelhead px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:px-5 sm:py-4">
+              <div>
+                <h2 className="text-[15px] font-semibold sm:text-[16px]">
+                  Traffic Overview
+                </h2>
+                <p className="text-[11px] text-slate-400 sm:text-[12px]">
+                  Monthly performance tracking
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[12px] text-slate-300 sm:gap-4 sm:text-[14px]">
+                <span className="flex items-center gap-1.5 sm:gap-2">
+                  <i className="h-2.5 w-2.5 rounded-full bg-blue-500 sm:h-3 sm:w-3"></i>
+                  Users
+                </span>
+                <span className="flex items-center gap-1.5 sm:gap-2">
+                  <i className="h-2.5 w-2.5 rounded-full bg-purple-500 sm:h-3 sm:w-3"></i>
+                  Sessions
+                </span>
+                <span className="flex items-center gap-1.5 sm:gap-2">
+                  <i className="h-2.5 w-2.5 rounded-full bg-pink-500 sm:h-3 sm:w-3"></i>
+                  Page Views
+                </span>
+                <button className="inline-flex h-8 items-center gap-1.5 rounded-md border border-line bg-ink px-2.5 text-[12px] hover:bg-panel sm:h-10 sm:gap-2 sm:px-4 sm:text-[14px]">
+                  <FilterIcon />
+                  Filter
                 </button>
               </div>
-              <button className="flex items-center gap-1.5 rounded-xl px-3 py-1.5 border border-gray-200 text-xs font-semibold text-gray-400 bg-gray-50 hover:bg-gray-100 transition-colors">
-                <Funnel size={11} stroke="currentColor" strokeWidth={2} />
+            </div>
+            <div className="px-2 pb-3 pt-4 sm:px-4 sm:pb-4 sm:pt-6">
+              <div className="h-[240px] w-full sm:h-[280px] lg:h-[320px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart
+                    data={trafficData}
+                    margin={{ top: 5, right: 5, left: -15, bottom: 0 }}
+                  >
+                    <defs>
+                      <linearGradient id="usersGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#5fadff" stopOpacity={0.25} />
+                        <stop offset="95%" stopColor="#5fadff" stopOpacity={0} />
+                      </linearGradient>
+                      <linearGradient id="sessionsGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#A855F7" stopOpacity={0.25} />
+                        <stop offset="95%" stopColor="#A855F7" stopOpacity={0} />
+                      </linearGradient>
+                      <linearGradient id="viewsGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#EC4899" stopOpacity={0.25} />
+                        <stop offset="95%" stopColor="#EC4899" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 4" stroke="#2a3150" vertical />
+                    <XAxis
+                      dataKey="month"
+                      tick={{ fontSize: 10, fill: "#7b84a3" }}
+                      axisLine={{ stroke: "#cbd5e1" }}
+                      tickLine={false}
+                      interval="preserveStartEnd"
+                      minTickGap={12}
+                    />
+                    <YAxis
+                      tick={{ fontSize: 10, fill: "#7b84a3" }}
+                      axisLine={{ stroke: "#cbd5e1" }}
+                      tickLine={false}
+                      tickFormatter={(v: number) => `${v / 1000}k`}
+                      width={38}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#111827",
+                        border: "1px solid #2a3150",
+                        borderRadius: 8,
+                        fontSize: 12,
+                      }}
+                      labelStyle={{ color: "#e2e8f0" }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="pageViews"
+                      stroke="#EC4899"
+                      strokeWidth={2}
+                      fill="url(#viewsGrad)"
+                      name="Page Views"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="sessions"
+                      stroke="#A855F7"
+                      strokeWidth={2}
+                      fill="url(#sessionsGrad)"
+                      name="Sessions"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="users"
+                      stroke="#5fadff"
+                      strokeWidth={2}
+                      fill="url(#usersGrad)"
+                      name="Users"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Traffic Sources */}
+        <div id="sources-card" className="min-w-0">
+          <div className="overflow-hidden rounded-xl border border-slate-500/60 bg-panel">
+            <div className="flex items-center justify-between gap-2 bg-panelhead px-4 py-3 sm:px-5 sm:py-4">
+              <div className="min-w-0">
+                <h2 className="text-[15px] font-semibold sm:text-[16px]">
+                  Traffic Sources
+                </h2>
+                <p className="text-[11px] text-slate-400 sm:text-[12px]">
+                  Lead progression stages
+                </p>
+              </div>
+              <button className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-md border border-line bg-ink px-2.5 text-[12px] hover:bg-panel sm:h-10 sm:gap-2 sm:px-4 sm:text-[14px]">
+                <FilterIcon/>
                 Filter
               </button>
             </div>
-          </div>
-          <div className="w-full h-[200px] sm:h-[210px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData}>
-                <defs>
-                  <linearGradient id="activeGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.18} />
-                    <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="convertedGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.14} />
-                    <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#F0F2F9" vertical={false} />
-                <XAxis
-                  dataKey="month"
-                  tick={{ fontSize: 10, fill: '#A0AABF' }}
-                  axisLine={{ stroke: '#F0F2F9' }}
-                  tickLine={false}
-                />
-                <YAxis
-                  tick={{ fontSize: 10, fill: '#A0AABF' }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Area
-                  type="monotone"
-                  dataKey="converted"
-                  stroke="#10B981"
-                  strokeWidth={1.5}
-                  fillOpacity={1}
-                  fill="url(#convertedGrad)"
-                  name="Converted"
-                />
-                <Area
-                  type="monotone"
-                  dataKey="activeLeads"
-                  stroke="#3B82F6"
-                  strokeWidth={2}
-                  fillOpacity={1}
-                  fill="url(#activeGrad)"
-                  name="Active Leads"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Pipeline Funnel */}
-        <div className="bg-white rounded-3xl border border-gray-100 shadow-md p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900">
-                Pipeline Funnel
-              </h3>
-              <p className="text-sm text-gray-500 mt-1">
-                Candidate status overview
-              </p>
-            </div>
-            <button className="flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition">
-              <Funnel size={16} />
-              Filter
-            </button>
-          </div>
-
-          <div className="relative flex justify-center">
-            <div className="w-64 h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    dataKey="value"
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={70}
-                    outerRadius={95}
-                    paddingAngle={2}
-                  >
-                    {pieData.map((entry, index) => (
-                      <Cell
-                        key={index}
-                        fill={entry.color}
-                        stroke="#fff"
-                        strokeWidth={3}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-
-            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <h2 className="text-4xl font-extrabold text-gray-900">
-                {totalCandidates}
-              </h2>
-              <p className="text-sm text-gray-500 font-medium">
-                Total Candidates
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3 mt-6">
-            {pieData.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 px-3 py-2 hover:shadow-sm transition"
-              >
-                <div className="flex items-center gap-2">
-                  <span
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <span className="text-sm font-medium text-gray-700">
-                    {item.name}
+            <div className="flex flex-col items-center px-3 pb-5 pt-6 sm:px-4 sm:pb-6 sm:pt-8">
+              <div className="relative h-[200px] w-[200px] sm:h-[230px] sm:w-[230px] lg:h-[250px] lg:w-[250px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={sourceData}
+                      dataKey="value"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius="52%"
+                      outerRadius="80%"
+                      startAngle={-105}
+                      paddingAngle={0}
+                      stroke="none"
+                    >
+                      {sourceData.map((entry, i) => (
+                        <Cell key={i} fill={entry.color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute left-1/2 top-1/2 flex h-[130px] w-[130px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-ink sm:h-[145px] sm:w-[145px] lg:h-[160px] lg:w-[160px]">
+                  <span className="text-[26px] font-semibold leading-none sm:text-[30px] lg:text-[32px]">
+                    500
+                  </span>
+                  <span className="mt-1 text-[13px] text-slate-300 sm:text-[14px] lg:text-[15px]">
+                    New Leads
                   </span>
                 </div>
-                <span className="text-sm font-bold text-gray-900">
-                  {item.value}
-                </span>
               </div>
-            ))}
+              <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[13px] text-slate-300 sm:mt-6 sm:gap-x-5 sm:text-[14px]">
+                <li className="flex items-center gap-1.5 sm:gap-2">
+                  <i className="h-2.5 w-2.5 rounded-full bg-[#9fe0c5]"></i>
+                  Organic
+                </li>
+                <li className="flex items-center gap-1.5 sm:gap-2">
+                  <i className="h-2.5 w-2.5 rounded-full bg-[#5fadff]"></i>
+                  Direct
+                </li>
+                <li className="flex items-center gap-1.5 sm:gap-2">
+                  <i className="h-2.5 w-2.5 rounded-full bg-[#9b94f5]"></i>
+                  Referral
+                </li>
+                <li className="flex items-center gap-1.5 sm:gap-2">
+                  <i className="h-2.5 w-2.5 rounded-full bg-[#f9d5dc]"></i>
+                  Social
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+      </section>
+
+      {/* Top Pages Bar */}
+      <div id="top-pages-bar">
+        <section className="mt-6 rounded-md bg-panelhead px-4 py-3 sm:mt-9 sm:px-5 sm:py-4">
+          <h2 className="text-[15px] font-semibold sm:text-[16px]">Top Pages</h2>
+          <p className="mt-1 text-[11px] text-slate-400 sm:text-[12px]">
+            Monthly conversion targets
+          </p>
+        </section>
       </div>
 
-      {/* User Management Table */}
-      <div className="rounded-2xl overflow-hidden" style={{
-        background: 'rgb(255, 255, 255)',
-        border: '1px solid rgb(228, 233, 244)',
-        boxShadow: 'rgba(0, 0, 0, 0.04) 0px 1px 3px'
-      }}>
-        <div className="px-4 sm:px-6 pt-5 pb-4">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div>
-              <h3 className="text-base font-bold text-gray-900">
-                User Management
-              </h3>
-              <p className="text-xs text-gray-400 font-medium mt-1">
-                Active users
-              </p>
-            </div>
-            <button 
-              onClick={() => navigate('/admin/user-management')}
-              className="flex items-center justify-center gap-2 rounded-xl px-4 py-2 bg-purple-700 text-white text-xs font-bold hover:bg-purple-800 transition-colors"
-            >
-              <span>View All</span>
-              <ArrowUpRight size={13} stroke="currentColor" strokeWidth={2} />
-            </button>
-          </div>
-        </div>
-
+      {/* Top Pages Table */}
+      <section className="mt-4 overflow-hidden rounded-xl border border-line bg-ink sm:mt-6">
         <div className="overflow-x-auto">
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', minWidth: '800px' }}>
+          <table className="w-full min-w-[720px] text-left sm:min-w-[900px]">
             <thead>
-              <tr style={{ background: 'rgb(250, 251, 254)', borderBottom: '1px solid rgb(238, 241, 251)' }}>
-                <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  NAME
+              <tr className="border-b border-line text-[10px] uppercase tracking-wider text-slate-400 sm:text-[12px]">
+                <th className="px-4 py-3 font-medium sm:px-6 sm:py-5">
+                  Page URL / Title
                 </th>
-                <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  USERNAME
+                <th className="px-2 py-3 font-medium sm:px-3 sm:py-5">
+                  Page Views
                 </th>
-                <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  EMAIL
+                <th className="px-2 py-3 font-medium sm:px-3 sm:py-5">
+                  Unique Visitors
                 </th>
-                <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  ROLE
+                <th className="px-2 py-3 font-medium sm:px-3 sm:py-5">
+                  Avg Time on Page
                 </th>
-                <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  DEPARTMENT
+                <th className="px-2 py-3 font-medium sm:px-3 sm:py-5">
+                  Bounce Rate
                 </th>
-                <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  STATUS
-                </th>
-                {/* <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  ACTIONS
-                </th> */}
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user, index) => {
-                const statusStyle = getStatusStyle(user.status);
-                return (
-                  <tr
-                    key={user.id}
-                    style={{
-                      borderBottom: index === users.length - 1 ? 'none' : '1px solid rgb(238, 241, 251)',
-                      background: 'rgb(255, 255, 255)',
-                      transition: 'background 0.12s'
-                    }}
-                    className="hover:bg-gray-50"
-                  >
-                    <td style={{ padding: '13px 16px' }}>
-                      <div className="flex items-center gap-3">
-                        <div
-                          className="flex items-center justify-center rounded-xl shrink-0"
-                          style={{ width: '34px', height: '34px', background: user.color, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px' }}
-                        >
-                          <span style={{ color: '#fff', fontSize: '11px', fontWeight: 800 }}>
-                            {user.initials}
-                          </span>
-                        </div>
-                        <div>
-                          <span style={{ fontWeight: 700, color: 'rgb(13, 17, 23)' }}>
-                            {user.name}
-                          </span>
-                          <div style={{ fontSize: '11px', color: 'rgb(160, 170, 191)', fontWeight: 500 }}>
-                            ID: #{user.id}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td style={{ padding: '13px 16px', color: 'rgb(123, 130, 153)', fontWeight: 500 }}>
-                      {user.username}
-                    </td>
-                    <td style={{ padding: '13px 16px', color: 'rgb(123, 130, 153)', fontWeight: 500 }}>
-                      {user.email}
-                    </td>
-                    <td style={{ padding: '13px 16px' }}>
-                      <span style={{ fontWeight: 700, color: 'rgb(13, 17, 23)' }}>
-                        {user.role}
-                      </span>
-                    </td>
-                    <td style={{ padding: '13px 16px', color: 'rgb(123, 130, 153)', fontWeight: 500 }}>
-                      {user.department}
-                    </td>
-                    <td style={{ padding: '13px 16px' }}>
-                      <span
-                        className="rounded-full px-3 py-1 w-fit inline-flex"
-                        style={{
-                          fontSize: '11px',
-                          fontWeight: 700,
-                          background: statusStyle.bg,
-                          color: statusStyle.color,
-                        }}
-                      >
-                        {user.status}
-                      </span>
-                    </td>
-                    {/* <td style={{ padding: '13px 16px' }}>
-                      <div className="flex gap-1.5">
-                        <button
-                          className="flex items-center justify-center rounded-xl"
-                          title="View"
-                          style={{ width: '30px', height: '30px', background: 'rgb(238, 241, 251)', color: 'rgb(96, 27, 128)', cursor: 'pointer', border: 'none' }}
-                        >
-                          <Eye size={13} stroke="currentColor" strokeWidth={2} />
-                        </button>
-                        <button
-                          className="flex items-center justify-center rounded-xl"
-                          title="Edit"
-                          style={{ width: '30px', height: '30px', background: 'rgb(245, 243, 255)', color: 'rgb(124, 58, 237)', cursor: 'pointer', border: 'none' }}
-                        >
-                          <Pen size={13} stroke="currentColor" strokeWidth={2} />
-                        </button>
-                        <button
-                          className="flex items-center justify-center rounded-xl"
-                          title="Delete"
-                          style={{ width: '30px', height: '30px', background: 'rgb(254, 242, 242)', color: 'rgb(220, 38, 38)', cursor: 'pointer', border: 'none' }}
-                        >
-                          <Trash2 size={13} stroke="currentColor" strokeWidth={2} />
-                        </button>
-                      </div>
-                    </td> */}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Recent Candidates Table */}
-      <div className="rounded-2xl overflow-hidden" style={{
-        background: 'rgb(255, 255, 255)',
-        border: '1px solid rgb(228, 233, 244)',
-        boxShadow: 'rgba(0, 0, 0, 0.04) 0px 1px 3px'
-      }}>
-        <div className="px-4 sm:px-6 pt-5 pb-4">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div>
-              <h3 className="text-base font-bold text-gray-900">
-                Recent Candidates
-              </h3>
-              <p className="text-xs text-gray-400 font-medium mt-1">
-                Latest incoming applicants
-              </p>
-            </div>
-            <button 
-              onClick={() => navigate('/admin/candidates')}
-              className="flex items-center justify-center gap-2 rounded-xl px-4 py-2 bg-purple-700 text-white text-xs font-bold hover:bg-purple-800 transition-colors"
-            >
-              <span>View All</span>
-              <ArrowUpRight size={13} stroke="currentColor" strokeWidth={2} />
-            </button>
-          </div>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', minWidth: '700px' }}>
-            <thead>
-              <tr style={{ background: 'rgb(250, 251, 254)', borderBottom: '1px solid rgb(238, 241, 251)' }}>
-                <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  NAME
-                </th>
-                <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  ROLE
-                </th>
-                <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  SOURCE
-                </th>
-                <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  TIME
-                </th>
-                <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  STATUS
-                </th>
-                <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: 'rgb(160, 170, 191)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  ACTIONS
+                <th className="px-4 py-3 font-medium sm:px-6 sm:py-5">
+                  Conversion Rate
                 </th>
               </tr>
             </thead>
             <tbody>
-              {candidates.map((candidate, index) => {
-                const statusStyle = getStatusStyle(candidate.status);
-                return (
-                  <tr
-                    key={candidate.id}
-                    style={{
-                      borderBottom: index === candidates.length - 1 ? 'none' : '1px solid rgb(238, 241, 251)',
-                      background: 'rgb(255, 255, 255)',
-                      transition: 'background 0.12s'
-                    }}
-                    className="hover:bg-gray-50"
-                  >
-                    <td style={{ padding: '13px 16px' }}>
-                      <div className="flex items-center gap-3">
-                        <div
-                          className="flex items-center justify-center rounded-xl shrink-0"
-                          style={{ width: '34px', height: '34px', background: candidate.color, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px' }}
-                        >
-                          <span style={{ color: '#0F4C81', fontSize: '11px', fontWeight: 800 }}>
-                            {candidate.initials}
-                          </span>
-                        </div>
-                        <span style={{ fontWeight: 700, color: 'rgb(13, 17, 23)' }}>
-                          {candidate.name}
-                        </span>
-                      </div>
-                    </td>
-                    <td style={{ padding: '13px 16px', color: 'rgb(123, 130, 153)', fontWeight: 500 }}>
-                      {candidate.role}
-                    </td>
-                    <td style={{ padding: '13px 16px' }}>
-                      <span className="rounded-lg px-2.5 py-1" style={{
-                        fontSize: '11px',
-                        fontWeight: 700,
-                        background: 'rgb(238, 241, 251)',
-                        color: 'rgb(96, 27, 128)'
-                      }}>
-                        {candidate.source}
-                      </span>
-                    </td>
-                    <td style={{ padding: '13px 16px', color: 'rgb(160, 170, 191)', fontSize: '12px', fontWeight: 500 }}>
-                      {candidate.time}
-                    </td>
-                    <td style={{ padding: '13px 16px' }}>
-                      <span
-                        className="rounded-full px-3 py-1 w-fit inline-flex"
-                        style={{
-                          fontSize: '11px',
-                          fontWeight: 700,
-                          background: statusStyle.bg,
-                          color: statusStyle.color,
-                        }}
-                      >
-                        {candidate.status}
-                      </span>
-                    </td>
-                    <td style={{ padding: '13px 16px' }}>
-                      <div className="flex gap-1.5">
-                        <button
-                          className="flex items-center justify-center rounded-xl"
-                          title="View Profile"
-                          style={{ width: '30px', height: '30px', background: 'rgb(238, 241, 251)', color: 'rgb(96, 27, 128)', cursor: 'pointer', border: 'none' }}
-                          onClick={() => handleViewProfile(candidate)}
-                        >
-                          <Eye size={13} stroke="currentColor" strokeWidth={2} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+              {topPages.map((page, i) => (
+                <tr key={i} className="text-[13px] sm:text-[15px]">
+                  <td className="px-4 py-4 sm:px-6 sm:py-6">{page.url}</td>
+                  <td className="px-2 py-4 text-slate-400 sm:px-3 sm:py-6">
+                    {page.views}
+                  </td>
+                  <td className="px-2 py-4 text-slate-400 sm:px-3 sm:py-6">
+                    {page.visitors}
+                  </td>
+                  <td className="px-2 py-4 text-slate-400 sm:px-3 sm:py-6">
+                    {page.avgTime}
+                  </td>
+                  <td className="px-2 py-4 text-slate-400 sm:px-3 sm:py-6">
+                    {page.bounce}
+                  </td>
+                  <td className="px-4 py-4 text-slate-400 sm:px-6 sm:py-6">
+                    {page.conversion}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-      </div>
-
-      {/* Profile Sidebar */}
-      <ProfileSidebar
-        candidate={selectedCandidate}
-        isOpen={isProfileOpen}
-        onClose={handleCloseProfile}
-        onStatusUpdate={() => {
-          // Refresh dashboard data after status update
-          fetchDashboardStats();
-        }}
-      />
-    </div>
+        {/* Pager */}
+        <div id="pager">
+          <div className="flex flex-col items-center gap-3 border-t border-line px-4 py-3 sm:flex-row sm:justify-between sm:px-6 sm:py-3.5">
+            <span className="text-[12px] text-slate-500 sm:text-[14px]">
+              1 - 2 of 40 items
+            </span>
+            <div className="flex w-full gap-2 sm:w-auto sm:gap-3">
+              <button className="inline-flex h-9 flex-1 items-center justify-center rounded-md border border-line bg-panel px-4 text-[13px] text-white transition hover:bg-panelhead sm:h-[38px] sm:flex-none sm:text-[14px]">
+                Previous
+              </button>
+              <button className="inline-flex h-9 flex-1 items-center justify-center rounded-md border border-line bg-panel px-4 text-[13px] text-white transition hover:bg-panelhead sm:h-[38px] sm:flex-none sm:text-[14px]">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 };
 
