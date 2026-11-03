@@ -11,7 +11,7 @@ const Leads = () => {
             id="page"
             className="min-w-0 flex-1 px-4 pb-12 pt-6 sm:px-6 sm:pb-16 sm:pt-8 lg:px-[28px] lg:pt-[36px]"
         >
-            {/* Page Head */}
+      
             <div id="page-head">
                 <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
                     <div className="min-w-0">
@@ -35,7 +35,7 @@ const Leads = () => {
                 </div>
             </div>
 
-            {/* Stats */}
+         
             <section
                 id="stats"
                 className="mt-5 grid grid-cols-1 gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4"
@@ -133,7 +133,7 @@ const Leads = () => {
                 </div>
             </section>
 
-            {/* Search + filters */}
+         
             <section className="mt-6 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
                 <div className="flex h-11 w-full items-center gap-3 rounded-lg bg-panel px-4 sm:h-[46px] sm:max-w-[433px]">
                     <span id="search-ic" className="shrink-0 text-slate-400">
@@ -174,7 +174,7 @@ const Leads = () => {
                 </div>
             </section>
 
-            {/* Table */}
+       
             <section className="mt-4 overflow-hidden rounded-xl border border-line bg-panel/40 sm:mt-6">
                 <div className="overflow-x-auto">
                     <table className="w-full min-w-[760px] text-left sm:min-w-[960px]">
@@ -228,7 +228,7 @@ const Leads = () => {
                                 </td>
                             </tr>
 
-                            {/* Row 2 - Qualified */}
+                   
                             <tr className="text-[13px] sm:text-[15px]">
                                 <td className="px-4 py-3 leading-snug sm:px-6 sm:py-4">
                                     <a href="lead-view.html" className="text-slate-400 hover:text-white">
@@ -266,7 +266,7 @@ const Leads = () => {
                                 </td>
                             </tr>
 
-                            {/* Row 3 - Contacted */}
+                     
                             <tr className="text-[13px] sm:text-[15px]">
                                 <td className="px-4 py-3 leading-snug sm:px-6 sm:py-4">
                                     <a href="lead-view.html" className="text-slate-400 hover:text-white">
@@ -304,7 +304,7 @@ const Leads = () => {
                                 </td>
                             </tr>
 
-                            {/* Row 4 - New */}
+                    
                             <tr className="text-[13px] sm:text-[15px]">
                                 <td className="px-4 py-3 leading-snug sm:px-6 sm:py-4">
                                     <a href="lead-view.html" className="text-slate-400 hover:text-white">
@@ -344,7 +344,7 @@ const Leads = () => {
                         </tbody>
                     </table>
                 </div>
-                {/* Pager */}
+        
                 <div id="pager">
                     <div className="flex flex-col items-center gap-3 border-t border-line px-4 py-3 sm:flex-row sm:justify-between sm:px-6 sm:py-3.5">
                         <span className="text-[12px] text-slate-500 sm:text-[14px]">

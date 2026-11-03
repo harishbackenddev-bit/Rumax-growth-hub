@@ -40,7 +40,7 @@ const platforms = [
 ];
 
 const AiGenerator = () => {
-  // ---- form state ----
+
   const [contentType, setContentType] = useState<ContentType>("content");
   const [brief, setBrief] = useState("");
   const [tone, setTone] = useState("");
@@ -50,7 +50,7 @@ const AiGenerator = () => {
     "linkedin",
   ]);
 
-  // ---- result state ----
+
   const [generatedContent, setGeneratedContent] = useState<string | null>(null);
 
   const togglePlatform = (id: string) =>
@@ -118,7 +118,7 @@ const AiGenerator = () => {
 
   const handleBack = () => setGeneratedContent(null);
 
-  // ---------- RESULT VIEW ----------
+ 
   if (generatedContent !== null) {
     return (
       <main
@@ -230,7 +230,7 @@ const AiGenerator = () => {
     );
   }
 
-  // ---------- FORM VIEW ----------
+
   return (
     <main
       id="page"
@@ -346,7 +346,7 @@ const AiGenerator = () => {
             </div>
           </div>
 
-          {/* Brief */}
+
           <div>
             <label className="mb-2 block text-[13px] text-slate-200 sm:text-[14px]">
               Content Brief
@@ -360,7 +360,7 @@ const AiGenerator = () => {
             />
           </div>
 
-          {/* Selects */}
+     
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
             <div>
               <label className="mb-2 block text-[13px] text-slate-200 sm:text-[14px]">
@@ -410,7 +410,7 @@ const AiGenerator = () => {
             </div>
           </div>
 
-          {/* Platforms */}
+      
           <div>
             <label className="mb-2 block text-[13px] text-slate-200 sm:text-[14px]">
               Target Platform(s)

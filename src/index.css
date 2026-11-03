@@ -1,27 +1,22 @@
-/* ============================================================
-   Rumax Admin – cleaned global stylesheet (Tailwind v4)
-   Only what the new dark dashboard design needs.
-   ============================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-/* ---------- Design tokens (generate bg-ink, bg-panel, border-line, text-brand … ) ---------- */
+
 @theme {
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
 
-  --color-ink: #0a0e1c;          /* page background */
-  --color-panel: #0f1530;        /* cards */
-  --color-panelhead: #171f42;    /* card headers, inputs */
-  --color-line: #1d2440;         /* borders */
+  --color-ink: #0a0e1c;   
+  --color-panel: #0f1530;  
+  --color-panelhead: #171f42; 
+  --color-line: #1d2440;     
 
-  --color-brand: #2a2fa0;        /* primary buttons, active menu */
+  --color-brand: #2a2fa0;  
   --color-brand-dark: #22278a;
-  --color-plum: #621b80;         /* login button, selected chips */
+  --color-plum: #621b80;       
   --color-plum-dark: #521569;
-  --color-navy: #1b1f6b;         /* links on white login card */
+  --color-navy: #1b1f6b;       
 }
 
-/* ---------- Base ---------- */
 @layer base {
   html {
     color-scheme: dark;
@@ -49,13 +44,13 @@
     color: #64748b;
   }
 
-  /* dropdown list colours (native <select>) */
+
   select option {
     background-color: var(--color-panel);
     color: #e5e7eb;
   }
 
-  /* native date / time pickers on dark UI */
+
   input[type="date"],
   input[type="time"] {
     color-scheme: dark;
@@ -67,7 +62,7 @@
     opacity: 0.7;
   }
 
-  /* scrollbar */
+
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -87,7 +82,7 @@
   }
 }
 
-/* ---------- Utilities ---------- */
+
 @layer utilities {
   .sideways-rl {
     writing-mode: sideways-lr;

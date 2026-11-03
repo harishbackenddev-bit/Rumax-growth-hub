@@ -1,4 +1,4 @@
-// context/ThemeContext.tsx
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
 
@@ -28,15 +28,14 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState<string>('light');
 
-  // Apply theme to DOM - REMOVES OLD THEME COMPLETELY
+ 
   const applyTheme = (themeName: string) => {
-    console.log('🔄 Applying theme:', themeName);
     
-    // Remove ALL theme classes first
+  
     document.documentElement.classList.remove('dark', 'light');
     document.documentElement.removeAttribute('data-theme');
     
-    // Then apply the new theme
+   
     if (themeName === 'dark') {
       document.documentElement.classList.add('dark');
       document.documentElement.setAttribute('data-theme', 'dark');
@@ -58,24 +57,23 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       }
     }
     
-    // Save to localStorage
+  
     localStorage.setItem('theme', themeName);
   };
 
-  // Get user theme from API
+
   const fetchUserTheme = async () => {
     try {
       const token = localStorage.getItem('token');
       
       if (!token) {
         const savedTheme = localStorage.getItem('theme') || 'light';
-        console.log('📦 No token, using saved theme:', savedTheme);
         setTheme(savedTheme);
         applyTheme(savedTheme);
         return;
       }
 
-      console.log('🔑 Fetching user theme from API...');
+
       const response = await axios.get(`${API_URL}/api/auth/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -86,9 +84,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         const userData = response.data.data;
         const userTheme = userData.theme || 'light';
         
-        console.log('✅ User theme from API:', userTheme);
-        
-        // REMOVE OLD THEME and apply new
         setTheme(userTheme);
         applyTheme(userTheme);
         localStorage.setItem('theme', userTheme);
@@ -107,7 +102,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     }
   };
 
-  // Update user theme in database - REMOVES OLD THEME AND ADDS NEW
+
   const updateUserTheme = async (newTheme: string) => {
     try {
       const token = localStorage.getItem('token');
@@ -117,7 +112,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         return;
       }
 
-      console.log('📤 Updating user theme in database to:', newTheme);
       
       const response = await axios.patch(
         `${API_URL}/api/auth/update-profile`,
@@ -133,7 +127,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       if (response.data.success) {
         console.log('✅ Theme updated in database successfully');
         
-        // Verify the update
         const userResponse = await axios.get(`${API_URL}/api/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -144,7 +137,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
           const updatedTheme = userResponse.data.data.theme;
           console.log('🔄 Verified theme from database:', updatedTheme);
           
-          // Ensure local state matches database
           if (updatedTheme !== newTheme) {
             console.log('⚠️ Theme mismatch, syncing with database:', updatedTheme);
             setTheme(updatedTheme);
@@ -166,36 +158,35 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     }
   };
 
-  // Set theme - REMOVES OLD AND ADDS NEW
+
   const handleSetTheme = async (newTheme: string) => {
     console.log('🎯 Setting theme to:', newTheme);
     
-    // REMOVE OLD THEME and apply new immediately
+
     setTheme(newTheme);
     applyTheme(newTheme);
     localStorage.setItem('theme', newTheme);
     
-    // Update in database
+
     await updateUserTheme(newTheme);
   };
 
-  // Toggle between light and dark
+
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     handleSetTheme(newTheme);
   };
 
-  // Check if dark mode is active
+
   const isDark = theme === 'dark' || 
     (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-  // Listen for system theme changes if system theme is selected
   useEffect(() => {
     if (theme === 'system') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const handleChange = (e: MediaQueryListEvent) => {
         console.log('🔄 System theme changed:', e.matches ? 'dark' : 'light');
-        // REMOVE OLD THEME
+
         document.documentElement.classList.remove('dark', 'light');
         document.documentElement.removeAttribute('data-theme');
         
@@ -213,12 +204,10 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     }
   }, [theme]);
 
-  // Initial load - only once
   useEffect(() => {
     fetchUserTheme();
   }, []);
 
-  console.log('🏷️ Current theme state:', { theme, isDark });
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme: handleSetTheme, isDark }}>

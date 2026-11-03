@@ -1,4 +1,3 @@
-// layouts/admin/AdminSidebar.tsx
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { X } from "lucide-react";
@@ -233,12 +232,11 @@ const isActive = (p: string) => {
 const AdminSidebar = ({ isOpen = false, onClose }: AdminSidebarProps) => {
   return (
     <>
-      {/* Desktop: static */}
       <aside className="hidden lg:flex w-[240px] xl:w-[258px] shrink-0 flex-col self-stretch border-r border-line bg-slate-900 text-white">
         <SidebarInner />
       </aside>
 
-      {/* Mobile: drawer */}
+
       <div
         className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ${
           isOpen

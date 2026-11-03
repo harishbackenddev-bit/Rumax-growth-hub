@@ -1,4 +1,3 @@
-// layouts/admin/AdminLayout.tsx
 import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import AdminSidebar from "./AdminSidebar";
@@ -12,7 +11,7 @@ const AdminLayout = () => {
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
   const closeSidebar = () => setIsSidebarOpen(false);
 
-  // Get user initials
+
   const getInitials = (name: string) => {
     if (!name) return "A";
     const parts = name.trim().split(" ");
@@ -23,7 +22,7 @@ const AdminLayout = () => {
   };
 
   useEffect(() => {
-    // Close mobile sidebar when route changes / viewport resizes to desktop
+  
     const handleResize = () => {
       if (window.innerWidth >= 1024) setIsSidebarOpen(false);
     };
@@ -31,7 +30,7 @@ const AdminLayout = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Lock body scroll when mobile drawer is open
+
   useEffect(() => {
     if (isSidebarOpen) {
       document.body.style.overflow = "hidden";

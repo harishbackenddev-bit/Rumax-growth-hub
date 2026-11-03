@@ -1,4 +1,3 @@
-// pages/auth/Login.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -8,7 +7,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login, error, setError } = useAuth();
 
-  // Active view: 'login' | 'forgot'
+
   const [view, setView] = useState<'login' | 'forgot'>('login');
 
   const [email, setEmail] = useState<string>('');
@@ -39,12 +38,12 @@ const Login: React.FC = () => {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-ink font-sans text-slate-900 antialiased">
-      {/* blue glow (left) */}
+    
       <div className="pointer-events-none absolute -left-40 top-1/4 h-[600px] w-[600px] rounded-full bg-blue-900/30 blur-[140px]" />
-      {/* purple glow (bottom right) */}
+
       <div className="pointer-events-none absolute -bottom-40 right-0 h-[600px] w-[700px] rounded-full bg-purple-900/40 blur-[160px]" />
 
-      {/* Logo */}
+
       <header className="absolute left-7 top-8 z-10">
         <img
           src={Logo}
@@ -61,10 +60,9 @@ const Login: React.FC = () => {
         />
       </header>
 
-      {/* Center */}
+  
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-24">
 
-        {/* ===================== LOGIN CARD ===================== */}
         {view === 'login' && (
           <section
             id="login-card"
@@ -79,7 +77,7 @@ const Login: React.FC = () => {
             )}
 
             <form className="mt-5" onSubmit={handleSubmit}>
-              {/* Username */}
+           
               <label htmlFor="username" className="block text-sm font-medium text-slate-800">
                 Username
               </label>
@@ -93,7 +91,6 @@ const Login: React.FC = () => {
                 className="mt-2 h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-[15px] text-slate-900 placeholder-slate-400 outline-none transition focus:border-plum focus:ring-2 focus:ring-plum/20"
               />
 
-              {/* Password */}
               <label htmlFor="password" className="mt-5 block text-sm font-medium text-slate-800">
                 Password
               </label>
@@ -128,7 +125,6 @@ const Login: React.FC = () => {
                 </button>
               </div>
 
-              {/* Forgot */}
               <div className="mt-6 text-right">
                 <button
                   type="button"
@@ -142,7 +138,7 @@ const Login: React.FC = () => {
                 </button>
               </div>
 
-              {/* Login button */}
+
               <button
                 type="submit"
                 disabled={loading}
@@ -154,7 +150,7 @@ const Login: React.FC = () => {
 
             <hr className="my-5 border-slate-200" />
 
-            {/* Feature badges */}
+
             <ul className="grid grid-cols-3 text-center text-xs text-slate-600">
               <li className="flex flex-col items-center gap-1.5">
                 <svg className="h-[18px] w-[18px] text-plum" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -178,7 +174,7 @@ const Login: React.FC = () => {
               </li>
             </ul>
 
-            {/* Footer text */}
+
             <p className="mt-6 text-center text-sm text-slate-700">
               Don&apos;t have access?{' '}
               <a href="#" className="font-medium text-plum hover:underline">
@@ -207,7 +203,7 @@ const Login: React.FC = () => {
           </section>
         )}
 
-        {/* ===================== FORGOT PASSWORD CARD ===================== */}
+  
         {view === 'forgot' && (
           <section
             id="forgot-card"
@@ -221,7 +217,7 @@ const Login: React.FC = () => {
               className="mt-5"
               onSubmit={(e) => {
                 e.preventDefault();
-                // TODO: wire up your forgot-password API call here
+   
               }}
             >
               <label htmlFor="forgot-email" className="block text-sm font-medium text-slate-800">

@@ -1,4 +1,3 @@
-// pages/admin/SocialMedia.tsx
 import React from "react";
 import { SocialMetaIcon, Highsignicon, Tiktokicon, FilterIcon, Linecharticon, Donuticon } from "@/utils/svgicons";
 const SocialMedia = () => {
@@ -7,7 +6,7 @@ const SocialMedia = () => {
             id="page"
             className="min-w-0 flex-1 px-4 pb-12 pt-6 sm:px-6 sm:pb-16 sm:pt-8 lg:px-[28px] lg:pt-[36px]"
         >
-            {/* Page Head */}
+   
             <div id="page-head">
                 <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
                     <div className="min-w-0">
@@ -22,12 +21,12 @@ const SocialMedia = () => {
                 </div>
             </div>
 
-            {/* Platform cards */}
+        
             <section
                 id="platforms"
                 className="mt-5 grid grid-cols-1 gap-4 sm:mt-6 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6"
             >
-                {/* Meta */}
+             
                 <div className="rounded-xl bg-panel p-4 sm:p-5 lg:p-6">
                     <div className="flex items-start justify-between">
                         <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-[#1877f2] to-[#0a5fe0] text-white sm:h-12 sm:w-12">
@@ -53,7 +52,7 @@ const SocialMedia = () => {
                     </dl>
                 </div>
 
-                {/* LinkedIn */}
+           
                 <div className="rounded-xl bg-panel p-4 sm:p-5 lg:p-6">
                     <div className="flex items-start justify-between">
                         <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#0a7bbd] text-[18px] font-extrabold leading-none text-white sm:h-12 sm:w-12 sm:text-[20px]">
@@ -79,7 +78,7 @@ const SocialMedia = () => {
                     </dl>
                 </div>
 
-                {/* TikTok */}
+       
                 <div className="rounded-xl bg-panel p-4 sm:p-5 lg:p-6">
                     <div className="flex items-start justify-between">
                         <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#10e5e0] text-black sm:h-12 sm:w-12">
@@ -106,9 +105,9 @@ const SocialMedia = () => {
                 </div>
             </section>
 
-            {/* Charts */}
+         
             <section className="mt-6 grid grid-cols-1 gap-4 sm:mt-9 sm:gap-6 xl:grid-cols-[1.78fr_1fr]">
-                {/* Traffic Overview */}
+             
                 <div id="traffic-card" className="min-w-0">
                     <div className="overflow-hidden rounded-xl bg-panel">
                         <div className="flex flex-col gap-3 bg-panelhead px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:px-5 sm:py-4">
@@ -147,7 +146,7 @@ const SocialMedia = () => {
                     </div>
                 </div>
 
-                {/* Platform Breakdown */}
+           
                 <div id="breakdown-card" className="min-w-0">
                     <div className="overflow-hidden rounded-xl border border-slate-500/60 bg-panel">
                         <div className="flex items-center justify-between gap-2 bg-panelhead px-4 py-3 sm:px-5 sm:py-4">
@@ -199,7 +198,7 @@ const SocialMedia = () => {
                 </div>
             </section>
 
-            {/* Top Posts Bar */}
+          
             <div id="top-posts-bar">
                 <section className="mt-6 rounded-md bg-panelhead px-4 py-3 sm:mt-9 sm:px-5 sm:py-4">
                     <h2 className="text-[15px] font-semibold sm:text-[16px]">Top Posts</h2>
@@ -209,7 +208,7 @@ const SocialMedia = () => {
                 </section>
             </div>
 
-            {/* Top Posts Table */}
+          
             <section className="mt-4 overflow-hidden rounded-xl border border-line bg-ink sm:mt-6">
                 <div className="overflow-x-auto">
                     <table className="w-full min-w-[720px] text-left sm:min-w-[900px]">
@@ -256,7 +255,7 @@ const SocialMedia = () => {
                         </tbody>
                     </table>
                 </div>
-                {/* Pager */}
+          
                 <div id="pager">
                     <div className="flex flex-col items-center gap-3 border-t border-line px-4 py-3 sm:flex-row sm:justify-between sm:px-6 sm:py-3.5">
                         <span className="text-[12px] text-slate-500 sm:text-[14px]">

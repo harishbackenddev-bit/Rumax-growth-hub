@@ -10,7 +10,7 @@ const Header = () => {
   const location = useLocation();
   const dropdownRef = useRef<HTMLLIElement>(null);
 
-  // Handle scroll effect
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -20,7 +20,7 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Prevent body scroll when mobile menu is open
+  
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "unset";
     return () => {
@@ -28,7 +28,7 @@ const Header = () => {
     };
   }, [isMobileMenuOpen]);
 
-  // Close dropdown when clicking outside
+ 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -40,25 +40,25 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close mobile menu and dropdown when navigating
+
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
     setIsDropdownOpen(false);
   };
 
-  // Helper to check if link is active
+  
   const isActiveLink = (path: string) => {
     return location.pathname === path;
   };
 
-  // Toggle dropdown
+
   const toggleDropdown = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Social media links
+
   const socialLinks = [
     { label: "Facebook", icon: FaFacebook, url: "https://facebook.com" },
     { label: "Instagram", icon: FaInstagram, url: "https://instagram.com" },
@@ -66,7 +66,7 @@ const Header = () => {
     { label: "Twitter", icon: FaTwitter, url: "https://twitter.com" },
   ];
 
-  // Dropdown items for Services
+
   const dropdownItems = [
     {
       label: "Clinical Trials Homecare Services",
@@ -80,7 +80,7 @@ const Header = () => {
   ];
   return (
     <>
-      {/* TOP BAR */}
+
       <div className="top-bar">
         <div className="container">
           <div className="top-left">
@@ -109,17 +109,16 @@ const Header = () => {
         </div>
       </div>
 
-      {/* HEADER */}
+   
       <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container header-flex">
-          {/* Logo */}
+     
           <div className="left-logo">
             <Link to="/" className="logo" aria-label="Rumax home">
               <img src="/images/logo.png" alt="Rumax" />
             </Link>
           </div>
 
-          {/* Navigation */}
           <nav id="menu" className={isMobileMenuOpen ? 'active' : ''}>
             <ul>
               <li>
@@ -187,14 +186,13 @@ const Header = () => {
             </ul>
           </nav>
 
-          {/* Trial Button */}
           <div className="btns-nav">
            <Link to="https://rumax-second-main-website.vercel.app/" className="trial-btn switch-main">
             Switch to Expert Care
           </Link>
          
           </div>
-          {/* Mobile Toggle */}
+         
           <div
             className="mobile-toggle"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

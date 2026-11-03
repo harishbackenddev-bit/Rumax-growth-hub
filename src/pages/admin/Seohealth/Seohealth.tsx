@@ -7,7 +7,7 @@ const Seohealth = () => {
             id="page"
             className="min-w-0 flex-1 px-4 pb-12 pt-6 sm:px-6 sm:pb-16 sm:pt-8 lg:px-[28px] lg:pt-[36px]"
         >
-            {/* Page Head */}
+   
             <div id="page-head">
                 <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
                     <div className="min-w-0">
@@ -22,7 +22,7 @@ const Seohealth = () => {
                 </div>
             </div>
 
-            {/* Stats */}
+   
             <section
                 id="stats"
                 className="mt-5 grid grid-cols-1 gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4"
@@ -120,7 +120,7 @@ const Seohealth = () => {
                 </div>
             </section>
 
-            {/* Keyword Ranking Trends */}
+     
             <section className="mt-6 overflow-hidden rounded-xl border border-line bg-panel sm:mt-9">
                 <div className="flex flex-col gap-3 bg-panelhead px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-4">
                     <div className="min-w-0">
@@ -146,7 +146,7 @@ const Seohealth = () => {
             </section>
 
             <section className="mt-6 grid grid-cols-1 gap-4 sm:mt-9 sm:gap-6 lg:grid-cols-2">
-                {/* Top Backlinks */}
+           
                 <div className="rounded-xl bg-panel p-4 sm:p-5 lg:p-6">
                     <h2 className="text-xl font-medium sm:text-[22px]">Top Backlinks</h2>
                     <ul id="backlinks" className="mt-4 space-y-3 sm:mt-5">
@@ -228,7 +228,7 @@ const Seohealth = () => {
                     </ul>
                 </div>
 
-                {/* Core Web Vitals */}
+       
                 <div className="rounded-xl bg-panel p-4 sm:p-5 lg:p-6">
                     <h2 className="text-xl font-medium sm:text-[22px]">
                         Website Health &amp; Core Web Vitals

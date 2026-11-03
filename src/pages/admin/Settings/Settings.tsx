@@ -1,10 +1,8 @@
-// pages/admin/Settings.tsx
 import React, { useState } from "react";
 
-/* ---------- Tab key type ---------- */
 type TabKey = "profile" | "security" | "notifications" | "integrations";
 
-/* ---------- Reusable Toggle ---------- */
+
 interface ToggleProps {
   defaultChecked?: boolean;
   onChange?: (v: boolean) => void;
@@ -28,7 +26,7 @@ const Toggle = ({ defaultChecked = false, onChange }: ToggleProps) => {
   );
 };
 
-/* ---------- Profile tab ---------- */
+
 const ProfileTab = () => (
   <div className="space-y-4 sm:space-y-5">
     <section className="rounded-2xl border border-line bg-panel/60 p-4 sm:p-6">
@@ -86,7 +84,7 @@ const ProfileTab = () => (
   </div>
 );
 
-/* ---------- Security tab ---------- */
+
 const SecurityTab = () => (
   <div className="space-y-4 sm:space-y-5">
     <section className="rounded-2xl border border-line bg-panel/60 p-4 sm:p-6">
@@ -144,7 +142,7 @@ const SecurityTab = () => (
   </div>
 );
 
-/* ---------- Notifications tab ---------- */
+
 const notificationItems = [
   {
     title: "New Lead Notifications",
@@ -187,7 +185,7 @@ const NotificationsTab = () => (
   </section>
 );
 
-/* ---------- Integrations tab ---------- */
+
 type Integration = {
   name: string;
   icon: React.ReactNode;
@@ -309,7 +307,7 @@ const IntegrationsTab = () => (
   </section>
 );
 
-/* ---------- Tab definitions ---------- */
+
 const tabs: { key: TabKey; label: string; icon: React.ReactNode }[] = [
   {
     key: "profile",
@@ -388,7 +386,7 @@ const tabs: { key: TabKey; label: string; icon: React.ReactNode }[] = [
   },
 ];
 
-/* ---------- Page ---------- */
+
 const Settings = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("profile");
 
@@ -411,7 +409,7 @@ const Settings = () => {
         </div>
       </div>
 
-      {/* Tabs */}
+   
       <nav
         id="tabs"
         className="mt-5 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-4 lg:grid-cols-4"
@@ -436,7 +434,7 @@ const Settings = () => {
         })}
       </nav>
 
-      {/* Tab body */}
+
       <div id="tab-body" className="mt-5 sm:mt-6">
         {activeTab === "profile" && <ProfileTab />}
         {activeTab === "security" && <SecurityTab />}

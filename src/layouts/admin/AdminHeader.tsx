@@ -1,4 +1,3 @@
-// layouts/admin/AdminHeader.tsx
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronDown, LogOut as LogOutIcon, Menu } from "lucide-react";
@@ -101,7 +100,7 @@ const AdminHeader = ({
 
   return (
     <header className="flex h-16 lg:h-20 shrink-0 items-center border-b border-slate-700 bg-slate-900 px-3 lg:px-0">
-      {/* Hamburger — mobile only */}
+
       <button
         onClick={onMenuClick}
         className="mr-2 rounded-lg p-2 text-slate-300 hover:bg-white/10 lg:hidden"
@@ -111,7 +110,6 @@ const AdminHeader = ({
       </button>
 
 
-      {/* Brand — hidden on very small screens */}
       <div className="hidden sm:flex w-[180px] lg:w-[263px] shrink-0 items-center justify-center">
         <div className="text-center font-bold tracking-tight text-white text-2xl lg:text-3xl">
           RUMAX
@@ -132,7 +130,7 @@ const AdminHeader = ({
         />
       </div> */}
 
-      {/* Search — hidden on mobile, shown md+ */}
+   
       <div className="ml-5 hidden md:flex h-[42px] w-full max-w-[672px] items-center gap-3 rounded-lg border border-slate-700 bg-slate-800 px-4">
         <svg
           className="h-[18px] w-[18px] text-slate-400"
@@ -157,9 +155,9 @@ const AdminHeader = ({
         </span>
       </div>
 
-      {/* Right side */}
+
       <div className="ml-auto flex items-center gap-2 lg:gap-4 pr-1 lg:pr-8">
-        {/* Credits pill — hide on mobile */}
+   
         <div className="hidden lg:flex items-center gap-1.5 text-[15px] font-medium text-white">
           <span className="flex h-4 w-4 items-center justify-center rounded-full bg-indigo-700 text-[8px]">
             ⚭
@@ -167,7 +165,7 @@ const AdminHeader = ({
           95.5
         </div>
 
-        {/* Add Credits — icon-only on mobile */}
+      
         <button className="h-9 lg:h-10 rounded-md bg-indigo-600 px-3 lg:px-5 text-[11px] lg:text-[12px] font-semibold uppercase tracking-wide text-white hover:bg-indigo-700">
           <span className="hidden lg:inline">Add Credits</span>
           <span className="lg:hidden">+</span>
@@ -195,7 +193,7 @@ const AdminHeader = ({
           <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-red-500"></span>
         </button>
 
-        {/* Profile dropdown */}
+       
         <div className="relative" ref={profileRef}>
           <button
             onClick={() => setIsProfileOpen(!isProfileOpen)}

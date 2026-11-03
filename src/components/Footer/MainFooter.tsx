@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-// Import assets (adjust paths as needed)
+
 const asset = (path: string) => `/images/${path}`;
 
 const MainFooter: React.FC = () => {
   return (
     <footer className="footer">
       <div className="container">
-        {/* Footer Top */}
+      
         <div className="footer-top">
-          {/* Column 1 - Brand */}
+         
           <div className="footer-col footer-brand">
             <Link to="/" className="footer-logo">
               <img src={asset("logo-white.png")} alt="Rumax" />
@@ -27,7 +27,7 @@ const MainFooter: React.FC = () => {
             </div>
           </div>
 
-          {/* Column 2 - Useful Links */}
+   
           <div className="footer-col">
             <h4>Useful Links</h4>
             <ul>
@@ -40,7 +40,7 @@ const MainFooter: React.FC = () => {
             </ul>
           </div>
 
-          {/* Column 3 - Who We Partner With */}
+     
           <div className="footer-col">
             <h4>Who We Partner With</h4>
             <ul>
@@ -50,7 +50,7 @@ const MainFooter: React.FC = () => {
             </ul>
           </div>
 
-          {/* Column 4 - Company */}
+      
           <div className="footer-col">
             <h4>Company</h4>
             <ul>
@@ -60,7 +60,7 @@ const MainFooter: React.FC = () => {
             </ul>
           </div>
 
-          {/* Column 5 - Social Media */}
+     
           <div className="footer-col footer-social">
             <h4>Social Media</h4>
             <p>
@@ -91,7 +91,7 @@ const MainFooter: React.FC = () => {
           </div>
         </div>
 
-        {/* Footer Bottom */}
+
         <div className="footer-bottom">
           <div className="copyright">
             <p>

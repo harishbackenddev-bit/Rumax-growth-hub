@@ -124,7 +124,7 @@ const AiCreations = () => {
       id="page"
       className="min-w-0 flex-1 px-4 pb-12 pt-6 sm:px-6 sm:pb-16 sm:pt-8 lg:px-[28px] lg:pt-[36px]"
     >
-      {/* Header with search / filters / create */}
+   
       <div className="flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:items-start lg:justify-between">
         <div className="min-w-0">
           <h1 className="text-2xl font-medium leading-tight sm:text-[28px] lg:text-[32px]">
@@ -163,7 +163,7 @@ const AiCreations = () => {
         </div>
       </div>
 
-      {/* Tabs */}
+  
       <nav
         id="tabs"
         className="mt-5 flex gap-1 overflow-x-auto border-b border-line bg-panel/40 px-2 sm:mt-6 sm:gap-2 sm:px-8"
@@ -188,7 +188,7 @@ const AiCreations = () => {
         })}
       </nav>
 
-      {/* Grid */}
+
       <section
         id="grid"
         className="mt-5 grid grid-cols-1 gap-4 sm:mt-6 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3 xl:gap-6"
