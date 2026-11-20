@@ -125,7 +125,7 @@ const Login: React.FC = () => {
                 </button>
               </div>
 
-              <div className="mt-6 text-right">
+              {/* <div className="mt-6 text-right">
                 <button
                   type="button"
                   onClick={() => {
@@ -136,7 +136,7 @@ const Login: React.FC = () => {
                 >
                   Forgot Password?
                 </button>
-              </div>
+              </div> */}
 
 
               <button
