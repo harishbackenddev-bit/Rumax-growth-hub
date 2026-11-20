@@ -14,32 +14,32 @@ export const SocialMetaIcon = () => (
 );
 
 export const InstagramIcon = () => (
-   <svg
-          viewBox="0 0 24 24"
-          className="h-[55%] w-[55%]"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
-          <circle cx="12" cy="12" r="4" />
-          <circle cx="17.2" cy="6.8" r="1" fill="currentColor" />
-        </svg>
+    <svg
+        viewBox="0 0 24 24"
+        className="h-[55%] w-[55%]"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+    >
+        <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.2" cy="6.8" r="1" fill="currentColor" />
+    </svg>
 
 );
 
 export const Twittericon = () => (
 
-<svg
-          viewBox="0 0 24 24"
-          className="h-[50%] w-[50%]"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-        >
-          <path d="M4 4l16 16M20 4 4 20" />
-        </svg>
+    <svg
+        viewBox="0 0 24 24"
+        className="h-[50%] w-[50%]"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+    >
+        <path d="M4 4l16 16M20 4 4 20" />
+    </svg>
 
 );
 
@@ -459,7 +459,7 @@ export const Threedotsign = () => (
 );
 
 export const Staricon = () => (
-      <svg
+    <svg
         className="h-4 w-4"
         viewBox="0 0 24 24"
         fill="none"
@@ -468,14 +468,14 @@ export const Staricon = () => (
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden="true"
-      >
+    >
         <path d="M10 4v3M8.5 5.5h3M5 12v4M3 14h4M16 8l1.2 3.3L20.5 12.5l-3.3 1.2L16 17l-1.2-3.3-3.3-1.2 3.3-1.2L16 8Z" />
-      </svg>
+    </svg>
 );
 
 
 export const Contenticon = () => (
-<svg
+    <svg
         className="h-4 w-4"
         viewBox="0 0 24 24"
         fill="none"
@@ -484,17 +484,17 @@ export const Contenticon = () => (
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden="true"
-      >
+    >
         <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" />
         <path d="M14 3v5h5M9 13h6M9 17h6" />
-      </svg>
+    </svg>
 
-      );
+);
 
 
-      
+
 export const Imageicon = () => (
- <svg
+    <svg
         className="h-4 w-4"
         viewBox="0 0 24 24"
         fill="none"
@@ -503,18 +503,18 @@ export const Imageicon = () => (
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden="true"
-      >
+    >
         <rect x="3" y="4" width="18" height="16" rx="2" />
         <circle cx="9" cy="10" r="1.8" />
         <path d="m21 16-5-5-8 8" />
-      </svg>
+    </svg>
 
-      );
+);
 
 
-      
+
 export const Videoicon = () => (
-     <svg
+    <svg
         className="h-4 w-4"
         viewBox="0 0 24 24"
         fill="none"
@@ -523,27 +523,27 @@ export const Videoicon = () => (
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden="true"
-      >
+    >
         <rect x="3" y="6" width="13" height="12" rx="2" />
         <path d="m16 10 5-3v10l-5-3" />
-      </svg>
+    </svg>
 
-      );
+);
 
 
 export const Clockicon = () => (
-         <svg
-                    className="h-3.5 w-3.5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="M12 7v5l3 2" />
-                  </svg>
+    <svg
+        className="h-3.5 w-3.5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+    >
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 2" />
+    </svg>
 
 );

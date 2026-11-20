@@ -92,10 +92,10 @@ const AiGenerator = () => {
 
     const header =
       contentType === "content"
-        ? `✨ ${brief}`
+        ? ` ${brief}`
         : contentType === "image"
-        ? `🖼️ Image concept: ${brief}`
-        : `🎬 Video concept: ${brief}`;
+        ? `Image concept: ${brief}`
+        : `Video concept: ${brief}`;
 
     const body = [
       header,
@@ -285,7 +285,7 @@ const AiGenerator = () => {
         </div>
 
         <div className="space-y-4 p-2 sm:space-y-5 sm:p-3">
-          {/* Content Type */}
+      
           <div>
             <p className="mb-3 text-[14px] text-slate-200 sm:text-[15px]">
               Content Type

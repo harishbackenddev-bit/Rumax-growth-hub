@@ -6,7 +6,6 @@ import AdminLayout from "@/layouts/admin/AdminLayout";
 
 
 import Login from "@/pages/auth/Login";
-import ForgotPassword from "@/pages/auth/ForgotPassword";
 
 import AdminDashboard from "@/pages/admin/Dashboard";
 import SocialMedia from "@/pages/admin/SocialMedia/SocialMedia";
@@ -24,7 +23,6 @@ const AppRoutes = () => {
   
         <Route index element={<Login />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Route>
 
       <Route path="/admin" element={

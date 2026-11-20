@@ -39,21 +39,21 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     if (themeName === 'dark') {
       document.documentElement.classList.add('dark');
       document.documentElement.setAttribute('data-theme', 'dark');
-      console.log('🌙 Dark mode applied');
+   
     } else if (themeName === 'light') {
       document.documentElement.classList.add('light');
       document.documentElement.setAttribute('data-theme', 'light');
-      console.log('☀️ Light mode applied');
+  
     } else if (themeName === 'system') {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       if (prefersDark) {
         document.documentElement.classList.add('dark');
         document.documentElement.setAttribute('data-theme', 'dark');
-        console.log('🌙 System dark mode applied');
+   
       } else {
         document.documentElement.classList.add('light');
         document.documentElement.setAttribute('data-theme', 'light');
-        console.log('☀️ System light mode applied');
+    
       }
     }
     
@@ -89,14 +89,14 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         localStorage.setItem('theme', userTheme);
       } else {
         const savedTheme = localStorage.getItem('theme') || 'light';
-        console.log('⚠️ API error, using saved theme:', savedTheme);
+        console.log('API error, using saved theme:', savedTheme);
         setTheme(savedTheme);
         applyTheme(savedTheme);
       }
     } catch (error) {
-      console.error('❌ Error fetching user theme:', error);
+      console.error('Error fetching user theme:', error);
       const savedTheme = localStorage.getItem('theme') || 'light';
-      console.log('📦 Error, using saved theme:', savedTheme);
+      console.log('Error, using saved theme:', savedTheme);
       setTheme(savedTheme);
       applyTheme(savedTheme);
     }
@@ -108,7 +108,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       const token = localStorage.getItem('token');
       
       if (!token) {
-        console.log('ℹ️ No token, theme saved locally only');
+        console.log('No token, theme saved locally only');
         return;
       }
 
@@ -125,7 +125,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       );
 
       if (response.data.success) {
-        console.log('✅ Theme updated in database successfully');
+        console.log('Theme updated in database successfully');
         
         const userResponse = await axios.get(`${API_URL}/api/auth/me`, {
           headers: {
@@ -138,20 +138,20 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
           console.log('🔄 Verified theme from database:', updatedTheme);
           
           if (updatedTheme !== newTheme) {
-            console.log('⚠️ Theme mismatch, syncing with database:', updatedTheme);
+            console.log('Theme mismatch, syncing with database:', updatedTheme);
             setTheme(updatedTheme);
             applyTheme(updatedTheme);
             localStorage.setItem('theme', updatedTheme);
           }
         }
       } else {
-        console.error('❌ Failed to update theme in database:', response.data.message);
+        console.error('Failed to update theme in database:', response.data.message);
         const savedTheme = localStorage.getItem('theme') || 'light';
         setTheme(savedTheme);
         applyTheme(savedTheme);
       }
     } catch (error) {
-      console.error('❌ Error updating user theme:', error);
+      console.error('Error updating user theme:', error);
       const savedTheme = localStorage.getItem('theme') || 'light';
       setTheme(savedTheme);
       applyTheme(savedTheme);
@@ -160,7 +160,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
 
   const handleSetTheme = async (newTheme: string) => {
-    console.log('🎯 Setting theme to:', newTheme);
+    console.log('Setting theme to:', newTheme);
     
 
     setTheme(newTheme);
@@ -185,7 +185,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     if (theme === 'system') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const handleChange = (e: MediaQueryListEvent) => {
-        console.log('🔄 System theme changed:', e.matches ? 'dark' : 'light');
+        console.log('System theme changed:', e.matches ? 'dark' : 'light');
 
         document.documentElement.classList.remove('dark', 'light');
         document.documentElement.removeAttribute('data-theme');

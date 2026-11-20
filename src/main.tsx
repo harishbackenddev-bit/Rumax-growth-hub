@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <ScrollToTop />
       <ThemeProvider>
         <App />
-        <Toaster 
+        <Toaster
           position="top-right"
           reverseOrder={false}
           gutter={8}
